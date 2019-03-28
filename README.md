@@ -1,2 +1,2 @@
-# todo-react
-A todo app built using my NextJS config
+# notes-react-app
+📝 Take notes in style using React

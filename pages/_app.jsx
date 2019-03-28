@@ -14,12 +14,12 @@ export default class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props
+    const { Component, pageProps } = this.props;
 
     return (
       <Container>
         <Head>
-          <title>Page</title>
+          <title>Notes</title>
         </Head>
         <Component {...pageProps} />
       </Container>

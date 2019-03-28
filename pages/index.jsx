@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import produce from 'immer';
 import Items from '../components/Items';
 
@@ -12,43 +12,98 @@ const Centred = styled.div`
   margin: 20px;
 `;
 
+const Loader = props => props.loading ? <div style={{textAlign:'center'}} id="myLoader">
+<br />
+<br />
+<div className="preloader-wrapper big active">
+    <div className="spinner-layer spinner-black-only">
+        <div className="circle-clipper left">
+            <div className="circle"></div>
+        </div>
+        <div className="gap-patch">
+            <div className="circle"></div>
+        </div>
+        <div className="circle-clipper right">
+            <div className="circle"></div>
+        </div>
+    </div>
+</div>
+</div> : <Items data={props.data} subfunc={props.removeNote} /> ;
+
 export default () => {
-  const initialData = [{ key: 1, data: 'asd' }, { key: 2, data: 'asdasd' }];
-  const [data, setData] = useState(initialData);
-  const [key, setKey] = useState(3);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const logText = () => {
-    console.log(data);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const getData = localStorage.getItem('data');
+
+      if (getData !== '' && getData !== null) {
+        setData(JSON.parse(getData));
+      }
+    }
+    setLoading(false);
+
+    /*if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(err => console.error("Service worker registration failed", err))
+    } else {
+      console.log("Service worker not supported");*/
+  //}
+  }, 0);
+
+  const addNote = () => {
     const input = document.querySelector('#noteText').value;
-    const nextState = produce(data, draftState => {
-      draftState.push({ key, data: input });
-    });
 
+    if (input.trim() !== '') {
+      const nextState = produce(data, draftState => {
+        draftState.push({ id: Date.now(), data: input });
+      });
+
+      setData(nextState);
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('data', JSON.stringify(nextState));
+      }
+
+      document.querySelector('#noteText').value = '';
+    }
+  };
+
+  const removeNote = id => {
+    const nextState = data.filter(el => el.id !== id);
     setData(nextState);
-    setKey(key + 1);
 
-    console.log(data);
-    document.querySelector('#noteText').value = '';
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('data', JSON.stringify(nextState));
+    }
   };
 
   const handleChange = e => {
-    if (e.key === 'Enter') logText();
+    if (e.key === 'Enter') addNote();
   };
 
   return (
     <Centred>
-      <h2>todos</h2>
+      <h2>notes</h2>
 
       <div style={{ display: 'flex' }}>
         <div className="input-field" style={{ flex: 3, paddingRight: '20px' }}>
-          <input id="noteText" type="text" onKeyPress={handleChange} />
-          <label htmlFor="enter-text">What do you wanna do today ?</label>
+          <input
+            placeholder="What do you wanna do today ?"
+            id="noteText"
+            type="text"
+            onKeyPress={handleChange}
+          />
         </div>
         <div style={{ paddingTop: '30px' }}>
-          <i className="material-icons" onClick={ logText }>send</i>
+          <a className="btn-flat">
+            <i className="material-icons" onClick={addNote}>
+              send
+            </i>
+          </a>
         </div>
       </div>
-      <Items data={data} />
+      <Loader loading={loading} data={data} removeNote={removeNote} /> 
     </Centred>
-  )
-}
+  );
+};
