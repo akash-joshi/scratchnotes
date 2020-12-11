@@ -13,13 +13,24 @@ export default function Home() {
   console.log(data);
 
   return (
-    <section style={{ height: "100vh" }}>
+    <section
+      style={{
+        height: "100vh",
+      }}
+    >
       <textarea
         ref={noteRef}
         defaultValue={data}
         value={data}
         onChange={(e) => setData(e.target.value)}
-        style={{ height: "100%", width: "100%", padding: "2em" }}
+        style={{
+          height: "100%",
+          width: "100%",
+          padding: "2em",
+          backgroundColor: "#1e1e1e",
+          color: "#d4d4d4",
+          border: "none",
+        }}
       />
     </section>
   );

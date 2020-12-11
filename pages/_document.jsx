@@ -1,6 +1,6 @@
-import Document, { Head, Main, NextScript, Html } from 'next/document';
-import React from 'react';
-import { ServerStyleSheet } from 'styled-components';
+import Document, { Head, Main, NextScript, Html } from "next/document";
+import React from "react";
+import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
@@ -8,7 +8,9 @@ export default class MyDocument extends Document {
     const sheet = new ServerStyleSheet();
 
     // Step 2: Retrieve styles from components in the page
-    const page = renderPage(App => props => sheet.collectStyles(<App {...props} />));
+    const page = renderPage((App) => (props) =>
+      sheet.collectStyles(<App {...props} />)
+    );
 
     // Step 3: Extract the styles as <style> tags
     const styleTags = sheet.getStyleElement();
@@ -21,12 +23,21 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <link href="/static/min.css" rel="stylesheet" />
-          <link href="/static/materialize.min.css" rel="stylesheet" />
           <link rel="manifest" href="/static/manifest.webmanifest" />
-          <link rel="shortcut icon" href="/static/images/icons/icon-72x72.png" />
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+          <link
+            rel="shortcut icon"
+            href="/static/images/icons/icon-72x72.png"
+          />
+          <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet"
+          />
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@4/distr/fira_code.css"
+          />
+
           {this.props.styleTags}
         </Head>
         <body>
