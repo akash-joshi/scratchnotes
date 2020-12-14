@@ -1,2 +1,9 @@
-# notes-react-app
-📝 Take notes in style using React
+# ScratchNotes - Taking Notes on the fly 🚀
+
+Demo: https://twitter.com/akashjdotcom/status/1337680610169675777
+
+ScratchNotes is a floating scratchpad which always stays on top of your other windows and across workspaces. This makes it easier to store contextual information on it.
+
+## Releases
+
+Releases for Mac, Windows, Linux available here: https://github.com/akash-joshi/scratchnotes/releases
