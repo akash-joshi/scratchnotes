@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined') { 
   require('materialize-css');
 }
 
