@@ -23,7 +23,14 @@ export default function Home() {
         color: "#d4d4d4",
       }}
     >
-      <div style={{ padding: "2em", borderBottom: "1px solid #7E735C" }}>
+      <div
+        style={{
+          padding: "2em",
+          borderBottom: "1px solid #7E735C",
+          display: "grid",
+          gridTemplateRows: "auto 1fr",
+        }}
+      >
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -37,7 +44,7 @@ export default function Home() {
           }}
           type="text"
         />
-        <br />
+
         <textarea
           ref={noteRef}
           defaultValue={data}
@@ -51,7 +58,7 @@ export default function Home() {
             resize: "none",
             backgroundColor: "#1e1e1e",
             overflow: "auto",
-            height: "97%",
+            height: "100%",
           }}
         />
       </div>
