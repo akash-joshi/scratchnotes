@@ -51,6 +51,7 @@ export default function Home() {
             resize: "none",
             backgroundColor: "#1e1e1e",
             overflow: "auto",
+            height: "97%",
           }}
         />
       </div>
