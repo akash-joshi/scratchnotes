@@ -63,8 +63,8 @@ export default function Home() {
         />
       </div>
       <div style={{ padding: "1em" }}>
-        {data.length > 0 ? (
-          data.split(" ").length
+        {data?.match(/[^\s]+/g)?.length > 0 ? (
+          data?.match(/[^\s]+/g)?.length
         ) : (
           <span style={{ color: "#7E735C" }}> Start Writing...</span>
         )}
