@@ -1,22 +1,60 @@
 import { useEffect, useRef } from "react";
 import { useLocalStorage } from "react-use";
 
+import "quill/dist/quill.snow.css";
+
+let Quill = undefined;
+
 export default function Home() {
   const [data, setData] = useLocalStorage("note", "");
   const [title, setTitle] = useLocalStorage("note_title", "");
 
-  const noteRef = useRef(null);
+  console.log(data);
+
+  const quill = useRef(null);
 
   useEffect(() => {
-    noteRef.current.value = data;
-  }, [data]);
+    Quill = require("quill");
 
-  console.log(data);
+    if (!quill.current) {
+      setTimeout(() => {
+        quill.current = new Quill("#compose-editor-container", {
+          modules: {
+            toolbar: {
+              container: [
+                [
+                  "bold",
+                  "italic",
+                  "underline",
+                  "strike",
+                  { list: "ordered" },
+                  "link",
+                ],
+              ],
+            },
+          },
+          theme: "snow", // or 'bubble'
+        });
+
+        quill.current.clipboard.dangerouslyPasteHTML(data);
+
+        quill.current.on(
+          "text-change",
+          function () // params: delta, oldDelta, source
+          {
+            if (document.querySelector(".ql-editor")) {
+              setData(document.querySelector(".ql-editor").innerHTML);
+            }
+          }
+        );
+      }, 200);
+    }
+  }, []);
 
   return (
     <section
       style={{
-        height: "100vh",
+        minHeight: "100vh",
         display: "grid",
         backgroundColor: "#1e1e1e",
         gridTemplateRows: "1fr auto",
@@ -29,6 +67,7 @@ export default function Home() {
           borderBottom: "1px solid #7E735C",
           display: "grid",
           gridTemplateRows: "auto 1fr",
+          overflowX: "hidden",
         }}
       >
         <input
@@ -45,26 +84,19 @@ export default function Home() {
           type="text"
         />
 
-        <textarea
-          ref={noteRef}
-          defaultValue={data}
-          value={data}
-          placeholder="Tap/Click Here to Start Typing..."
-          onChange={(e) => setData(e.target.value)}
-          style={{
-            width: "100%",
-            color: "#d4d4d4",
-            border: "none",
-            resize: "none",
-            backgroundColor: "#1e1e1e",
-            overflow: "auto",
-            height: "100%",
-          }}
-        />
+        <div style={{}} className="quill">
+          <div id="compose-editor-container">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: data,
+              }}
+            ></div>
+          </div>
+        </div>
       </div>
       <div style={{ padding: "1em" }}>
-        {data?.match(/[^\s]+/g)?.length > 0 ? (
-          data?.match(/[^\s]+/g)?.length
+        {quill?.current?.getText()?.match(/[^\s]+/g)?.length > 0 ? (
+          quill?.current?.getText()?.match(/[^\s]+/g)?.length
         ) : (
           <span style={{ color: "#7E735C" }}> Start Writing...</span>
         )}

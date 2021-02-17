@@ -1,3 +1,26 @@
 *:focus {
-    outline: 0;
+  outline: 0;
+}
+
+.ql-toolbar {
+  border: 0px !important;
+}
+
+.ql-container {
+  border: 0px !important;
+  font-family: "Fira Code", monospace !important;
+}
+
+.ql-toolbar.ql-snow {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.ql-editor {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+#compose-editor-container {
+  /* overflow: auto; */
 }

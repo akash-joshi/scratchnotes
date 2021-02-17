@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "next": "^10.0.3",
+    "quill": "^1.3.7",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
     "react-use": "^15.3.4"
