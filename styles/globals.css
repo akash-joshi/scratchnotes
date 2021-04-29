@@ -21,6 +21,6 @@
   padding-right: 0px !important;
 }
 
-#compose-editor-container {
-  /* overflow: auto; */
+.ant-tabs {
+  color: white !important;
 }

@@ -15,10 +15,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "antd": "^4.15.3",
     "next": "^10.0.3",
     "quill": "^1.3.7",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
-    "react-use": "^15.3.4"
+    "react-use": "^15.3.4",
+    "tslib": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.1",
+    "@types/react": "^17.0.4",
+    "typescript": "^4.2.4"
   }
 }

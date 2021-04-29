@@ -1,15 +1,22 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useLocalStorage } from "react-use";
 
 import "quill/dist/quill.snow.css";
+import { Tabs } from "antd";
 
 let Quill = undefined;
 
 export default function Home() {
-  const [data, setData] = useLocalStorage("note", "");
+  const [htmlData, setHtmlData] = useLocalStorage("note", "");
   const [title, setTitle] = useLocalStorage("note_title", "");
-
-  console.log(data);
+  const [selectedTab, setSelectedTab] = useLocalStorage("selectedTab", "1");
+  const [allData, setAllData] = useLocalStorage("allData", [
+    { data: "" },
+    { data: "" },
+    { data: "" },
+    { data: "" },
+    { data: "" },
+  ]);
 
   const quill = useRef(null);
 
@@ -36,14 +43,14 @@ export default function Home() {
           theme: "snow", // or 'bubble'
         });
 
-        quill.current.clipboard.dangerouslyPasteHTML(data);
+        quill.current.clipboard.dangerouslyPasteHTML(htmlData);
 
         quill.current.on(
           "text-change",
           function () // params: delta, oldDelta, source
           {
             if (document.querySelector(".ql-editor")) {
-              setData(document.querySelector(".ql-editor").innerHTML);
+              setHtmlData(document.querySelector(".ql-editor").innerHTML);
             }
           }
         );
@@ -70,25 +77,50 @@ export default function Home() {
           overflowX: "hidden",
         }}
       >
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
-          style={{
-            backgroundColor: "#1e1e1e",
-            color: "#d4d4d4",
-            border: "none",
-            marginBottom: "1em",
-            fontSize: "1.5em",
-          }}
-          type="text"
-        />
+        <div>
+          <Tabs
+            activeKey={selectedTab}
+            onChange={(selectedKey) => {
+              const nextData = [...allData];
+
+              nextData[parseInt(selectedTab) - 1].data = htmlData;
+              setAllData(nextData);
+
+              setSelectedTab(selectedKey);
+
+              quill.current.clipboard.dangerouslyPasteHTML(
+                nextData[parseInt(selectedKey) - 1].data
+              );
+              setHtmlData(nextData[parseInt(selectedKey) - 1].data);
+            }}
+          >
+            <Tabs.TabPane tab="Tab 1" key="1"></Tabs.TabPane>
+            <Tabs.TabPane tab="Tab 2" key="2"></Tabs.TabPane>
+            <Tabs.TabPane tab="Tab 3" key="3"></Tabs.TabPane>
+            <Tabs.TabPane tab="Tab 4" key="4"></Tabs.TabPane>
+            <Tabs.TabPane tab="Tab 5" key="5"></Tabs.TabPane>
+          </Tabs>
+
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Title"
+            style={{
+              backgroundColor: "#1e1e1e",
+              color: "#d4d4d4",
+              border: "none",
+              marginBottom: "1em",
+              fontSize: "1.5em",
+            }}
+            type="text"
+          />
+        </div>
 
         <div style={{}} className="quill">
           <div id="compose-editor-container">
             <div
               dangerouslySetInnerHTML={{
-                __html: data,
+                __html: htmlData,
               }}
             ></div>
           </div>
