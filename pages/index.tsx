@@ -8,14 +8,14 @@ let Quill = undefined;
 
 export default function Home() {
   const [htmlData, setHtmlData] = useLocalStorage("note", "");
-  const [title, setTitle] = useLocalStorage("note_title", "");
+  const [currentTitle, setCurrentTitle] = useLocalStorage("note_title", "");
   const [selectedTab, setSelectedTab] = useLocalStorage("selectedTab", "1");
   const [allData, setAllData] = useLocalStorage("allData", [
-    { data: "" },
-    { data: "" },
-    { data: "" },
-    { data: "" },
-    { data: "" },
+    { data: "", title: "" },
+    { data: "", title: "" },
+    { data: "", title: "" },
+    { data: "", title: "" },
+    { data: "", title: "" },
   ]);
 
   const quill = useRef(null);
@@ -84,6 +84,7 @@ export default function Home() {
               const nextData = [...allData];
 
               nextData[parseInt(selectedTab) - 1].data = htmlData;
+              nextData[parseInt(selectedTab) - 1].title = currentTitle;
               setAllData(nextData);
 
               setSelectedTab(selectedKey);
@@ -92,6 +93,7 @@ export default function Home() {
                 nextData[parseInt(selectedKey) - 1].data
               );
               setHtmlData(nextData[parseInt(selectedKey) - 1].data);
+              setCurrentTitle(nextData[parseInt(selectedKey) - 1].title);
             }}
           >
             <Tabs.TabPane tab="Tab 1" key="1"></Tabs.TabPane>
@@ -102,8 +104,8 @@ export default function Home() {
           </Tabs>
 
           <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={currentTitle}
+            onChange={(e) => setCurrentTitle(e.target.value)}
             placeholder="Title"
             style={{
               backgroundColor: "#1e1e1e",
