@@ -70,7 +70,7 @@ export default function Home() {
     >
       <div
         style={{
-          padding: "2em",
+          padding: "0px 2em",
           borderBottom: "1px solid #7E735C",
           display: "grid",
           gridTemplateRows: "auto 1fr",
