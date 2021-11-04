@@ -1,7 +1,10 @@
 import Document, { Head, Main, NextScript, Html } from "next/document";
 import React from "react";
 
-export default class MyDocument extends Document {
+import withTwindDocument from "@twind/next/document";
+import twindConfig from "../twind.config";
+
+class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
@@ -20,7 +23,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@4/distr/fira_code.css"
           />
-          {this.props.styleTags}
         </Head>
         <body>
           <Main />
@@ -30,3 +32,5 @@ export default class MyDocument extends Document {
     );
   }
 }
+
+export default withTwindDocument(twindConfig, MyDocument);

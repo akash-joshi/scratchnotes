@@ -1,7 +1,10 @@
 import React from "react";
+import withTwindApp from "@twind/next/app";
+
+import twindConfig from "../twind.config";
 
 import "../styles/globals.css";
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
@@ -15,4 +18,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default withTwindApp(twindConfig, MyApp);

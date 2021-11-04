@@ -3,6 +3,7 @@ import { useLocalStorage } from "react-use";
 
 import "quill/dist/quill.snow.css";
 import { Tabs } from "antd";
+import { tw } from "twind";
 
 let Quill = undefined;
 
@@ -61,48 +62,46 @@ export default function Home() {
   return (
     <section
       style={{
-        minHeight: "100vh",
-        display: "grid",
-        backgroundColor: "#1e1e1e",
-        gridTemplateRows: "1fr auto",
-        color: "#d4d4d4",
+        gridTemplateRows: "auto 1fr auto",
       }}
+      className={tw`h-screen grid bg-gray-900 text-white`}
     >
+      <Tabs
+        className={tw`px-8`}
+        activeKey={selectedTab}
+        onChange={(selectedKey) => {
+          const nextData = [...allData];
+
+          nextData[parseInt(selectedTab) - 1].data = htmlData;
+          nextData[parseInt(selectedTab) - 1].title = currentTitle;
+          setAllData(nextData);
+
+          setSelectedTab(selectedKey);
+
+          quill.current.clipboard.dangerouslyPasteHTML(
+            nextData[parseInt(selectedKey) - 1].data
+          );
+          setHtmlData(nextData[parseInt(selectedKey) - 1].data);
+          setCurrentTitle(nextData[parseInt(selectedKey) - 1].title);
+        }}
+      >
+        <Tabs.TabPane tab="Tab 1" key="1"></Tabs.TabPane>
+        <Tabs.TabPane tab="Tab 2" key="2"></Tabs.TabPane>
+        <Tabs.TabPane tab="Tab 3" key="3"></Tabs.TabPane>
+        <Tabs.TabPane tab="Tab 4" key="4"></Tabs.TabPane>
+        <Tabs.TabPane tab="Tab 5" key="5"></Tabs.TabPane>
+      </Tabs>
+
       <div
         style={{
-          padding: "0px 2em",
           borderBottom: "1px solid #7E735C",
           display: "grid",
           gridTemplateRows: "auto 1fr",
           overflowX: "hidden",
         }}
+        className={tw`px-8`}
       >
         <div>
-          <Tabs
-            activeKey={selectedTab}
-            onChange={(selectedKey) => {
-              const nextData = [...allData];
-
-              nextData[parseInt(selectedTab) - 1].data = htmlData;
-              nextData[parseInt(selectedTab) - 1].title = currentTitle;
-              setAllData(nextData);
-
-              setSelectedTab(selectedKey);
-
-              quill.current.clipboard.dangerouslyPasteHTML(
-                nextData[parseInt(selectedKey) - 1].data
-              );
-              setHtmlData(nextData[parseInt(selectedKey) - 1].data);
-              setCurrentTitle(nextData[parseInt(selectedKey) - 1].title);
-            }}
-          >
-            <Tabs.TabPane tab="Tab 1" key="1"></Tabs.TabPane>
-            <Tabs.TabPane tab="Tab 2" key="2"></Tabs.TabPane>
-            <Tabs.TabPane tab="Tab 3" key="3"></Tabs.TabPane>
-            <Tabs.TabPane tab="Tab 4" key="4"></Tabs.TabPane>
-            <Tabs.TabPane tab="Tab 5" key="5"></Tabs.TabPane>
-          </Tabs>
-
           <input
             value={currentTitle}
             onChange={(e) => setCurrentTitle(e.target.value)}
@@ -128,7 +127,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div style={{ padding: "1em" }}>
+      <div className={tw`p-4`}>
         {quill?.current?.getText()?.match(/[^\s]+/g)?.length > 0 ? (
           quill?.current?.getText()?.match(/[^\s]+/g)?.length
         ) : (
